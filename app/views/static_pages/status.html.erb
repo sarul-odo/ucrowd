@@ -1,0 +1,48 @@
+<% provide(:title, 'Status') %>
+<h1>Status</h1>
+
+<% all_users = 0 %>
+<% active_user = 0 %>
+<% inactive_user = 0 %>
+
+<h3>Users active rate</h3>
+<% @users.each do |user| %>
+    <% all_users = all_users + 1 %>
+    <% @submissions.each do |submission| %>
+      <% if submission.user_id == user.id %>
+        <% active_user = active_user + 1 %>
+      <% end %>
+    <% end %>
+<% end %>
+
+<% inactive_user = all_users - active_user %>
+<%= column_chart ({ 'All users' => all_users, 'Active' => active_user, 'Inactive' => inactive_user }) %>
+
+<% all_submission = 0 %>
+<% rank1 = 0 %>
+<% rank2 = 0 %>
+<% rank3 = 0 %>
+
+<h3>Submissions sucess rate</h3>
+<% @submissions.each do |submission| %>
+    <% all_submission = all_submission + 1 %>
+    <% submission %>
+    <% if submission.point.to_i <= 500 %>
+      <% rank1 = rank1 + 1 %>
+    <% elsif submission.point.to_i >= 500 && submission.point.to_i <= 1500 %>
+      <% rank2 = rank2 + 1 %>
+    <% else %>
+      <% rank3 = rank3 + 1 %>
+    <% end %>
+<% end %>
+
+<% data = [['Submissions', all_submission],
+          ['rank1', rank1],
+          ['rank2', rank2],
+          ['rank3', rank3]] %>
+<%= pie_chart data, library: { pieSliceText: 'value' } %>
+
+<li>competitions</li>
+<% @competitions.each do |competition| %>
+    <%= competition.title %>
+<% end %>

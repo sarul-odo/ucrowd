@@ -1,0 +1,67 @@
+<%= form_with(model: competition, local: true) do |form| %>
+  <% if competition.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(competition.errors.count, "error") %> prohibited this competition from being saved:</h2>
+
+      <ul>
+      <% competition.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+      <div class="field">
+        <%= form.label :image %>
+        <%= form.file_field :image, class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.label :title %>
+        <%= form.text_field :title, id: :competition_title, class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.label :explanation %>
+        <%= form.text_field :explanation, id: :competition_explanation, class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.label :input %>
+        <%= form.text_area :input, id: :input_explanation, class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.label :output %>
+        <%= form.text_area :output, id: :output_explanation, class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.label :content %>
+        <%= form.text_area :content, id: :competition_content, size: "0x15", class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.label :user_id %>
+        <%= form.text_field :user_id, :value => User.find(session["user_id"]).name, size: "0x15", provide: "markdown", class: 'form-control', :readonly => true %>
+        <%= form.hidden_field :user_id, :value => session["user_id"], id: :competition_user_id, class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.label :start_date %>
+        <%= form.date_field :start_date, id: :competition_start_date, class: 'form-control' %>
+      </div>
+      <div class="field">
+        <%= form.label :end_date %>
+        <%= form.date_field :end_date, id: :competition_end_date, class: 'form-control' %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Create competition", class: "btn btn-primary" %>
+      </div>
+  </div></div>
+
+<% end %>

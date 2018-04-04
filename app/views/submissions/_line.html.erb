@@ -1,0 +1,73 @@
+<br>
+  <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#problem" data-toggle="tab">Problem</a></li>
+      <li><a href="#submissions" data-toggle="tab">Submissions</a></li>
+      <li><a href="#messages" data-toggle="tab">Messages</a></li>
+  </ul>
+
+  <div id='content' class="tab-content">
+      <div class="tab-pane active" id="problem">
+        <br></br>
+          <table>
+            <tr><th><strong>Explanation:</strong></th></tr>
+            <tr><td><%= @competition.explanation %></td></tr>
+            <tr><th><strong>Input:</strong></th></tr>
+            <tr><td><%= @competition.input %></td></tr>
+            <tr><th><strong>Output:</strong></th></tr>
+            <tr><td><%= @competition.output %></td></tr>
+          </table>
+
+          <%= form_for(:submission, url: submission_check_path) do |f| %>
+            <%= f.text_area :comment, :value => @competition.content, size: "0x15", provide: "markdown" %>
+            <%= f.hidden_field :competition_id, :value => @competition.id %>
+            <% if User.find(session[:user_id]).role.to_i != 1 %>
+              <div class="pull-right">
+                <%= f.submit "Submit Code",name: 'submit_code', class:"btn btn-primary bb-submit ans-submit" %>
+              </div>
+              <div class="pull-right">
+                <%= f.submit "Run Code", name: 'run_code', class:"btn bb-compile msR" %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <div class="pull-left">
+            <div class="form-control">
+              <strong>Your output:</strong>
+              <% @@success %>
+            </div>
+          </div>
+          <br></br>
+          <div class="pull-left">
+            <div class="form-control">
+              <strong>Your language:</strong>
+            </div>
+            <div class="form-control">
+              <%= select_tag(:city_id, options_for_select([['python', 1], ['c++', 2], ['c', 1], ['java', 2]])) %>
+            </div>
+          </div>
+      </div>
+
+      <div class="tab-pane" id="submissions">
+        <br></br>
+          <div class="panel panel-default">
+            <table class="table">
+              <tr>
+                <th>Problem</th>
+                <th>Answer</th>
+              </tr>
+              <% @competition.submissions.each do |submission| %>
+                <tr>
+                  <td><%= @competition.title %></td>
+                  <td><%= submission.comment %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+      </div>
+
+      <div class="tab-pane" id="messages">
+        <br></br>
+        <ul>Replace messages here</ul>
+      </div>
+  </div>
+</br><br><br></br></br>

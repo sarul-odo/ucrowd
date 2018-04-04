@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Competitions</h1>
+
+<div class="panel panel-default">
+  <%= form_tag(competitions_path, :method => "get", class: 'navbar-form', role: 'search', id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Competitions", class: "form-control" %>
+      <%= submit_tag "Search", class: 'btn-success form-control' %>
+  <% end %>
+  <% if @competitions.present? %>
+  <% else %>
+    <p>There are no competition containing the term(s) <%= params[:search] %>.</p>
+  <% end %>
+</div>
+
+<%= render 'tabs'%>
+
+<br>
+<% if User.find(session[:user_id]).role.to_i == 1 %>
+  <%= link_to 'New Competition', new_competition_path %>
+<% end %>
